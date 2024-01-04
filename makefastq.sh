@@ -5,18 +5,22 @@ mkdir -p fastq
 
 
 folder=/nfs/rprdata/ALOFT/gencove.AloftHoldPrb.2019-03-22/bam
+##folder=/nfs/rprdata/ALOFT/gencove/bam/
 outfolder=./fastq
 
 
 
 module load samtools
 
-for file in $folder/HO*.bam; do
+for file in $folder/AL*.bam; do
     bam=${file##$folder/}
     sample=${bam%%.bam}
-    echo $sample $file
-    samtools fastq -1 ${outfolder}/${sample}_R1_001.fastq.gz -2 ${outfolder}/${sample}_R2_001.fastq.gz -0 /dev/null -s /dev/null -n ${file} --threads 3
+    if [ ! -f "$outfolder/slurm.${sample}.out" ]; then 
+	echo $sample $file
+	sbatch -q primary -n 3 -N 1-1 --mem=20G -t 2000 -J fq2bam_$sample -o $outfolder/slurm.$sample.out  --wrap "
+module load samtools;
+samtools sort -n ${file} -o $TMPDIR/${bam}
+samtools fastq -1 ${outfolder}/${sample}_R1_001.fastq.gz -2 ${outfolder}/${sample}_R2_001.fastq.gz -0 /dev/null -s /dev/null -n $TMPDIR/${bam} --threads 3
+"
+    fi
 done
-
-##samtools fastq -1 HO-001_R1_001.fastq -2 HO-001_R2_001.fastq -0 /dev/null -s /dev/null -n /nfs/rprdata/ALOFT/gencove.AloftHoldPrb.2019-03-22/bam/HO-001.bam
-
