@@ -2,7 +2,7 @@
 mkdir -p fastq
 
 ##cp /wsu/home/groups/piquelab/OurData/genewiz/30-887274028/00_fastq/*.fastq.gz ./fastq/
-
+##cp /tier2/home/groups/pique20/old.piquelab/OurData/genewiz/*/00_fastq/AL* ./fastq/
 
 folder=/nfs/rprdata/ALOFT/gencove.AloftHoldPrb.2019-03-22/bam
 ##folder=/nfs/rprdata/ALOFT/gencove/bam/
