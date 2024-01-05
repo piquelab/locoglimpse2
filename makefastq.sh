@@ -12,7 +12,7 @@ outfolder=./fastq
 
 module load samtools
 
-for file in $folder/AL*.bam; do
+for file in $folder/HO*.bam; do
     bam=${file##$folder/}
     sample=${bam%%.bam}
     if [ ! -f "$outfolder/slurm.${sample}.out" ]; then 

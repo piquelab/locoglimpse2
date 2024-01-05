@@ -38,6 +38,7 @@ $(BAM_DIR)/%.bam: $(FASTQ_DIR)/%_R1_001.fastq.gz $(FASTQ_DIR)/%_R2_001.fastq.gz
 	module load bwa-mem2 samtools; \
 	bwa-mem2 mem -Y -K 100000000 -t 12 $(REF_GENOME) $^ | samtools view -bS - | samtools sort -o $@
 	samtools index $@
+
 # Clean up
 clean:
 	rm -f $(BAM_FILES)
