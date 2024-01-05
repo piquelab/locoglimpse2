@@ -29,7 +29,7 @@ all: $(VCF_FILES)
 slurm: $(SLURM_JOBS)
 
 %.slurm:
-	@sbatch --job-name=$* --output=$*.slurm --error=$*.err -n 12 -N 1-1 --mem=50G -t 10000 -q primary --wrap="$(MAKE) -f vcfImputeMake.mk $* -$(MAKEFLAGS)"
+	@sbatch --job-name=$* --output=$*.slurm --error=$*.err -n 16 -N 1-1 --mem=50G -t 10000 -q primary --wrap="$(MAKE) -f vcfImputeMake.mk $* -$(MAKEFLAGS)"
 
 # Rule to create vcf files
 $(VCF_DIR)/%_ligated.bcf: $(BAM_DIR)/%.bam
