@@ -23,6 +23,9 @@ SLURM_JOBS := $(patsubst %, $(BAM_DIR)/%.bam.slurm, $(BASENAMES))
 help: 
 	@echo make slurm
 
+list:
+	@echo $(FILES)
+
 all: $(BAM_FILES)
 
 # Target if slurm

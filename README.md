@@ -18,7 +18,7 @@ make -f bamMake.mk slurm
 ```
 5. Imputation using 1KG panel. Using Slurm jobs. 
 ```
-make -f bamMake.mk slurm
+make -f vcfImputeMake.mk slurm
 ```
 7. Merging all bcf files into one vcf.gz file. See or adapt `final_merge.sh`
 
