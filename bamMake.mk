@@ -18,6 +18,10 @@ BAM_FILES := $(patsubst %, $(BAM_DIR)/%.bam, $(BASENAMES))
 # Convert each basename to a target in the bam directory
 SLURM_JOBS := $(patsubst %, $(BAM_DIR)/%.bam.slurm, $(BASENAMES))
 
+# Convert each basename to a target in the bam directory
+SLURM_JOBS_BAI := $(patsubst %, $(BAM_DIR)/%.bam.bai.slurm, $(BASENAMES))
+
+
 
 # Default target
 help: 
@@ -31,16 +35,23 @@ all: $(BAM_FILES)
 # Target if slurm
 slurm: $(SLURM_JOBS)
 
+# Target if slurm
+slurmbai: $(SLURM_JOBS_BAI)
+
+
 %.slurm:
-	@sbatch --job-name=$* --output=$*.slurm --error=$*.err -n 12 -N 1-1 --mem=50G -t 10000 -q primary --wrap="$(MAKE) -f bamMake.mk $* -$(MAKEFLAGS)"
+	@sbatch --job-name=$* --output=$*.slurm --error=$*.err -n 12 -N 1-1 --mem=50G -t 10000 -q express --wrap="$(MAKE) -f bamMake.mk $* -$(MAKEFLAGS)"
+
+$(BAM_DIR)/%.bam.bai: $(BAM_DIR)/%.bam 
+	module load samtools; samtools index $^ --threads 12
 
 # Rule to create bam files
 $(BAM_DIR)/%.bam: $(FASTQ_DIR)/%_R1_001.fastq.gz $(FASTQ_DIR)/%_R2_001.fastq.gz
 	@mkdir -p $(BAM_DIR)
 	# Align with bwa mem and convert to BAM with samtools
 	module load bwa-mem2 samtools; \
-	bwa-mem2 mem -Y -K 100000000 -t 12 $(REF_GENOME) $^ | samtools view -bS - | samtools sort -o $@
-	samtools index $@
+	bwa-mem2 mem -Y -K 100000000 -t 12 $(REF_GENOME) $^ | samtools view -bS - | samtools sort -o $@; \
+	samtools index $@ --threads 12
 
 # Clean up
 clean:
