@@ -7,24 +7,29 @@
 folder=bamorig
 outfolder=bam
 
-
-for file in $folder/*.bam; do 
-    bam=${file##$folder/}
+for file in $folder/*.bam; do
+    bam=${file##*/}
     sample=${bam%%.bam}
-    if [ ! -f "$outfolder/slurm.${sample}.out" ]; then 
-	echo $sample $file
-	sbatch -q secondary -n 3 -N 1-1 --mem=20G -t 2000 -J b2b_$sample -o $outfolder/slurm.$sample.out <<EOF
+    if [ ! -f "$outfolder/slurm.${sample}.out" ]; then
+        echo $sample $file
+        script_file=${outfolder}/${sample}.sh
+        cat > $script_file <<EOF
 #!/bin/bash
 module load samtools;
-samtools view -h bamorig/${bam} |\
-    sed -e '/^@SQ/s/SN\:/SN\:chr/' -e '/^[^@]/s/\t/\tchr/2'|\
-    awk -F ' ' '{ if (/^[^@]/) {$7=($7=="=" || $7=="*"?$7:sprintf("chr%s",$7))} print}' |\
+samtools view -h $file |\
+    sed -e '/^@SQ/s/SN:/SN:chr/' -e '/^[^@]/s/\t/\tchr/2' |\
+    grep -v '^@PG' |\
+    awk -F ' ' '{ if (/^[^@]/) {\$7=(\$7=="=" || \$7=="*"?\$7:sprintf("chr%s",\$7))} print}' |\
     tr " " "\t" |\
-    samtools view -bS - -o ${outfolder}/${bam}
-    samtools index ${outfolder}/${bam}
+    samtools view -b - -o ${outfolder}/${bam};
+samtools index ${outfolder}/${bam}
 EOF
-    else 
-	echo Skip ${sample}
+        # Submit the script to sbatch
+        sbatch -q primary -n 3 -N 1-1 --mem=20G -t 2000 -J b2b_$sample -o $outfolder/slurm.$sample.out $script_file
+        # Optionally, remove the temporary script file after submission
+##        rm $script_file
+    else
+        echo "Skip ${sample}"
     fi
 done
 
