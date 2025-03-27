@@ -1,8 +1,14 @@
 ## If usign bam output
 
-##mkdir -p bam
+mkdir -p bam
 ##cd bam; find ../../hp8265_ATAC_output/ATAC_data/ -name '*.recal.bam'  -print0 | parallel -0 'ln -s {}'
+## /rs/rs_grp_gxp/hp8265_ATAC_output/ATAC_data_EC/GxPA9_12_S8.filtered.trimmed.bam 
+##mkdir -p bamorig
+##cd bamorig; find ../../hp8265_ATAC_output/ATAC_data_EC/ -name '*.filtered.trimmed.bam' -print0 | parallel -0 'ln -s {}'
+##rename .filtered.trimmed.bam .bam *.bam
 
+
+## Adds chr. 
 ##file=GxPA14_04_S28.bam
 folder=bamorig
 outfolder=bam
