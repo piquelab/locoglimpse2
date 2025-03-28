@@ -4,12 +4,20 @@ mkdir -p bam
 ##cd bam; find ../../hp8265_ATAC_output/ATAC_data/ -name '*.recal.bam'  -print0 | parallel -0 'ln -s {}'
 ## /rs/rs_grp_gxp/hp8265_ATAC_output/ATAC_data_EC/GxPA9_12_S8.filtered.trimmed.bam 
 ##mkdir -p bamorig
+## ATAC
 ##cd bamorig; find ../../hp8265_ATAC_output/ATAC_data_EC/ -name '*.filtered.trimmed.bam' -print0 | parallel -0 'ln -s {}'
 ##rename .filtered.trimmed.bam .bam *.bam
+## _clean.bam 
 
+## RNA
+##mkdir -p bamorig
+##cd bamorig; find /rs/rs_grp_gxp/RNAseq_analysis/CB_align_test/ -name '*_clean.bam' -print0 | parallel -0 'ln -s {}'
+##rename _clean.bam  .bam *.bam
+## rename FL-GG-5s-pl9-GxP GxP *.bam
+## rename _S*.bam .bam *.bam
+## for f in ls *_S[0-9]*.bam; do mv -v "$f" "${f/_S[0-9]*.bam/.bam}"; done
 
 ## Adds chr. 
-##file=GxPA14_04_S28.bam
 folder=bamorig
 outfolder=bam
 
