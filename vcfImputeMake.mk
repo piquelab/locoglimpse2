@@ -41,3 +41,5 @@ $(VCF_DIR)/%_ligated.bcf: $(BAM_DIR)/%.bam
 clean:
 	rm -f $(VCF_FILES)
 
+error:
+	grep -i Error GLIMPSE_ligate/*.bcf.err | sed 's/.bcf.err:.*//' | while read f; do rm -v $${f}.*; done
