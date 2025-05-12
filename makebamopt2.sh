@@ -16,6 +16,8 @@ mkdir -p bam
 ## rename FL-GG-5s-pl9-GxP GxP *.bam
 ## rename _S*.bam .bam *.bam
 ## for f in ls *_S[0-9]*.bam; do mv -v "$f" "${f/_S[0-9]*.bam/.bam}"; done
+## less /rs/rs_grp_gxp/RNAseq_analysis/GxP_RNA_bamlist_nodups.txt | grep -v CB_align | grep -v Merged_Fastqs | grep -v GxPS | while read f; do ln -s /rs/rs_grp_gxp/RNAseq_analysis/$f; done
+
 
 ## Adds chr. 
 folder=bamorig
