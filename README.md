@@ -7,7 +7,7 @@ This are the scripts used to use GLIMPSE2 (https://www.nature.com/articles/s4158
 ```
 git clone git@github.com:piquelab/locoglimpse2.git
 ```
-2. Make links to all the reference files needed for aligment and imputation to already existing locations in the cluster. Alternatively, you may want to create new references from scratch (see below). The ones in the following script are based on hg38 and the latest release of the 1KG remapped on hg38. Note that this reference assumes you have "chr" in font of the chromosome number/letter. 
+2. Make links to all the reference files needed for aligment and imputation to already existing locations in the cluster. Alternatively, you may want to create new references from scratch (see below). The ones in the following script are based on hg38 and the latest release of the 1KG remapped on hg38. Note that this reference assumes you have "chr" in font of the chromosome number/letter. In this version we also remove indels and only keep biallelic snps in the reference panel on the step2. Links to `/rs/rs_grp_schold/reimpute`.
 ```
 bash makeRefLinks.sh
 ```
