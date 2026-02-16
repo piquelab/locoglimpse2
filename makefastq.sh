@@ -19,14 +19,14 @@ mkdir -p fastq
 
 ##exit 
 
-folder1=/wsu/home/fe/fe01/fe0105/piquelab/OurData/genewiz/30-1141782934/00_fastq/
-folder2=./fastq2/
-cat aloft2b1.v2.ids.match.v2.txt | while read f1 f2; do 
-   cp ${folder1}/${f1}_R1_001.fastq.gz ${folder2}/${f2}_R1_001.fastq.gz; 
-   cp ${folder1}/${f1}_R2_001.fastq.gz ${folder2}/${f2}_R2_001.fastq.gz; 
-done
+# folder1=/wsu/home/fe/fe01/fe0105/piquelab/OurData/genewiz/30-1141782934/00_fastq/
+# folder2=./fastq2/
+# cat aloft2b1.v2.ids.match.v2.txt | while read f1 f2; do 
+#    cp ${folder1}/${f1}_R1_001.fastq.gz ${folder2}/${f2}_R1_001.fastq.gz; 
+#    cp ${folder1}/${f1}_R2_001.fastq.gz ${folder2}/${f2}_R2_001.fastq.gz; 
+# done
 
-exit
+# exit
 
 
 
@@ -34,14 +34,15 @@ exit
 ##folder=/nfs/rprdata/ALOFT/gencove.AloftHoldPrb.2019-03-22/bam
 ##folder=/rs/rs_grp_scaloft/locoglimpse2/bamfix
 ##folder=/nfs/rprdata/ALOFT/gencove/bam/
-folder=/nfs/rprdata/ALOFT/gencove.old/bam/
+##folder=/nfs/rprdata/ALOFT/gencove.old/bam/
+folder=/nfs/rprdata/scilab/gencove/bam/
 outfolder=./fastq
 
 
 
 module load samtools
 
-for file in $folder/LP*.bam; do
+for file in $folder/*.bam; do
     bam=${file##$folder/}
     sample=${bam%%.bam}
     if [ ! -f "$outfolder/slurm.${sample}.out" ]; then 
